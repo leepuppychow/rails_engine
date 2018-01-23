@@ -11,10 +11,10 @@ Rails.application.routes.draw do
 
       namespace :items do
         controller :search do
-          get "/find_all", to: "items/search#index"
-          get "/find", to: "items/search#show"
+          get "/find_all", to: "search#index"
+          get "/find", to: "search#show"
         end
-        get "/items/random", to: "items/random#show"
+        get "/random", to: "random#show"
       end
       resources :items, only: [:index, :show]
 
