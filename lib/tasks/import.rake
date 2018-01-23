@@ -31,6 +31,7 @@ namespace :import do
         end
       end
 
+
     desc "Import merchants CSV file"
       task :merchants => [:environment] do
 
@@ -49,5 +50,13 @@ namespace :import do
         end
       end
 
+      desc "Import items CSV file"
+      task :items => [:environment] do
+
+        CSV.foreach("./db/items.csv", headers: true, header_converters: :symbol) do |row|
+          Item.create!(row.to_hash)
+
+        end
+      end
 
 end
