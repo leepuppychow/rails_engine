@@ -6,7 +6,7 @@ describe "Merchant API" do
     merchant4 = Merchant.create!(name: "Walmart",
                                 created_at: Date.today + 1,
                                 updated_at: Date.today + 1)
-                                
+
     get "/api/v1/merchants/find_all", params: {name: "Joe"}
 
     expect(response).to be_success
