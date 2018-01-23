@@ -2,7 +2,7 @@ merchant_1 = Merchant.create(name: "Merchant1", created_at: Time.now, updated_at
 
 customer_1 = Customer.create(first_name: "FN1",last_name: "LN1", created_at: Time.now, updated_at: Time.now)
 
-invoice_1 = Invoice.create(status: "paid", merchant: merchant_1, customer: customer_1,created_at: Time.now, updated_at: Time.now)
+invoice_1 = Invoice.create(status: "paid", merchant: merchant_1, customer: customer_1, created_at: Time.now, updated_at: Time.now)
 
 item_1 = Item.create(name: "Item1", description: "Description of item 1", unit_price: 100, created_at: Time.now, updated_at: Time.now, merchant: merchant_1)
 

@@ -4,7 +4,7 @@ FactoryBot.define do
     sequence(:description)  {|n| "Description for Item Name#{n}" }
     unit_price 100
     merchant
-    created_at Time.now
-    updated_at Time.now
+    created_at Date.today
+    updated_at Date.today
   end
 end
