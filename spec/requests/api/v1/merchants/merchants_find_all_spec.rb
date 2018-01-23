@@ -6,7 +6,7 @@ describe "Merchant API" do
     merchant4 = Merchant.create!(name: "Walmart",
                                 created_at: Date.today + 1,
                                 updated_at: Date.today + 1)
-
+                                
     get "/api/v1/merchants/find_all", params: {name: "Joe"}
 
     expect(response).to be_success
@@ -17,7 +17,7 @@ describe "Merchant API" do
     expect(found_merchants[1]["id"]).to eq merchant2.id
     expect(found_merchants[2]["id"]).to eq merchant3.id
 
-    get "/api/v1/merchants/find_all", params: {created_at: "#{Date.today}"}
+    get "/api/v1/merchants/find_all", params: {created_at: "2012-03-27T14:54:05.000Z"}
 
     expect(response).to be_success
     found_merchants = JSON.parse(response.body)
@@ -27,7 +27,7 @@ describe "Merchant API" do
     expect(found_merchants[1]["id"]).to eq merchant2.id
     expect(found_merchants[2]["id"]).to eq merchant3.id
 
-    get "/api/v1/merchants/find_all", params: {updated_at: "#{Date.today}"}
+    get "/api/v1/merchants/find_all", params: {updated_at: "2012-03-27T14:54:05.000Z"}
 
     expect(response).to be_success
     found_merchants = JSON.parse(response.body)

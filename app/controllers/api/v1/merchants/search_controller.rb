@@ -16,8 +16,12 @@ class Api::V1::Merchants::SearchController < ApplicationController
   end
 
   private
-  
+
     def search_params
+      #could format your params here (date, currency)
+      #could create a Sanitize.new PORO to process the currency
+      # params[:created_at] = DateTime.new(params[:created_at]) if params[:created_at]
+      # params[:updated_at] = DateTime.new(params[:updated_at]) if params[:updated_at]
       params.permit(:name, :created_at, :updated_at)
     end
 end
