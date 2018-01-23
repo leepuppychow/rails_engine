@@ -9,9 +9,7 @@ describe Transaction do
     it {is_expected.to validate_presence_of(:updated_at)}
   end
 
-  # describe "Relationships" do
-  #   it "belongs_to patients" do
-  #     is_expected.to belong_to(:patient)
-  #   end
-  # end
+  describe "Relationships" do
+    it {is_expected.to belong_to(:invoice)}
+  end
 end

@@ -4,5 +4,4 @@ class Api::V1::MerchantsController < ApplicationController
     render json: Merchant.all
   end
 
-
 end
