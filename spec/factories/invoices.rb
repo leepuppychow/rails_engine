@@ -1,9 +1,9 @@
 FactoryBot.define do
   factory :invoice do
-    customer_id
-    merchant_id
-    status
-    created_at
-    updated_at
+    customer 
+    merchant
+    status "shipped"
+    created_at Time.now
+    updated_at Time.now
   end
 end
