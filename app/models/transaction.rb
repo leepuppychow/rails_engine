@@ -6,5 +6,7 @@ class Transaction < ApplicationRecord
             :updated_at, presence: true
 
   belongs_to :invoice
+  scope :successful_transactions, -> {where(result: "success")}
+
 
 end

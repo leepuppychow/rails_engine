@@ -18,8 +18,13 @@ describe InvoiceItem do
     it "belongs_to invoice" do
       is_expected.to belong_to(:invoice)
     end
+  end
 
+  describe "Instance methods" do
+    it "can calculate revenue for an invoice item" do
+      invoice_item = create(:invoice_item, quantity: 5, unit_price: 50)
 
-
+      expect(invoice_item.revenue).to eq 250
+    end
   end
 end
