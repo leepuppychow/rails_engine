@@ -13,6 +13,4 @@ describe "Item Index API" do
 
   end
 
-
-
 end
