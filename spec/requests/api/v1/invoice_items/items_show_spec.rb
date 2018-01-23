@@ -7,10 +7,10 @@ describe "Item Show API" do
 
     get "/api/v1/items/#{item.id}"
 
-    served_item = JSON.parse(response.body, symbolize_names: true)
-# binding.pry
+    served_item = JSON.parse(response.body)
+
     expect(response).to be_successful
-    expect(served_item[:name]).to eq(item.name)
+    expect(item.name).to eq(served_item.name)
 
   end
 
