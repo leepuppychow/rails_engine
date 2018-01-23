@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180123003449) do
+ActiveRecord::Schema.define(version: 20180123012903) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -24,29 +24,34 @@ ActiveRecord::Schema.define(version: 20180123003449) do
   end
 
   create_table "invoice_items", force: :cascade do |t|
-    t.integer "item_id"
-    t.integer "invoice_id"
     t.integer "quantity"
     t.integer "unit_price"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "invoices_id"
+    t.bigint "items_id"
+    t.index ["invoices_id"], name: "index_invoice_items_on_invoices_id"
+    t.index ["items_id"], name: "index_invoice_items_on_items_id"
   end
 
   create_table "invoices", force: :cascade do |t|
-    t.integer "customer_id"
-    t.integer "merchant_id"
     t.string "status"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "customers_id"
+    t.bigint "merchants_id"
+    t.index ["customers_id"], name: "index_invoices_on_customers_id"
+    t.index ["merchants_id"], name: "index_invoices_on_merchants_id"
   end
 
   create_table "items", force: :cascade do |t|
     t.citext "name"
     t.citext "description"
     t.integer "unit_price"
-    t.integer "merchant_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "merchant_id"
+    t.index ["merchant_id"], name: "index_items_on_merchant_id"
   end
 
   create_table "merchants", force: :cascade do |t|
@@ -61,6 +66,14 @@ ActiveRecord::Schema.define(version: 20180123003449) do
     t.citext "result"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "invoices_id"
+    t.index ["invoices_id"], name: "index_transactions_on_invoices_id"
   end
 
+  add_foreign_key "invoice_items", "invoices", column: "invoices_id"
+  add_foreign_key "invoice_items", "items", column: "items_id"
+  add_foreign_key "invoices", "customers", column: "customers_id"
+  add_foreign_key "invoices", "merchants", column: "merchants_id"
+  add_foreign_key "items", "merchants"
+  add_foreign_key "transactions", "invoices", column: "invoices_id"
 end
