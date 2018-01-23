@@ -4,6 +4,10 @@ class Api::V1::Customers::SearchController < ApplicationController
     render json: Customer.find_by(search_params) if search_params
   end
 
+  def index
+    render json: Customer.where(search_params) if search_params
+  end
+
 
   private
 
