@@ -1,5 +1,7 @@
 class Merchant < ApplicationRecord
   validates :name, :created_at, :updated_at, presence: true
+  default_scope {order(:id)}
+
   has_many :invoices
   has_many :customers, through: :invoices
   has_many :transactions, through: :invoices

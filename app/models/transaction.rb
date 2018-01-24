@@ -4,11 +4,10 @@ class Transaction < ApplicationRecord
             :created_at,
             :updated_at, presence: true
 
-  # default_scope {where(result: "success")}
+  default_scope { order(:id) }
   # THIS IS LIKE A CALLBACK, WHICH AFFECTS THE CREATION OF OBJECTS
   #Postgres will return entries in fastest way (not by ordered ID)
   #so you can use a default_scope (typically only use for ordering)
-  default_scope { order(:id) }
 
   #examples:
   scope :successful, -> {where(result: "success")}

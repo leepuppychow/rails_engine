@@ -4,10 +4,10 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       namespace :merchants do
-        get "/:id/favorite_customer", to: "favorite_customer#show"
         get '/find', to: "search#show"
         get '/find_all', to: "search#index"
         get '/random', to: "random#show"
+        get "/:id/favorite_customer", to: "favorite_customer#show"
       end
       resources :merchants, only: [:index, :show]
 
@@ -26,11 +26,10 @@ Rails.application.routes.draw do
       resources :transactions, only:[:index, :show]
 
       namespace :items do
-        controller :search do
-          get "/find_all", to: "search#index"
-          get "/find", to: "search#show"
-        end
+        get "/find_all", to: "search#index"
+        get "/find", to: "search#show"
         get "/random", to: "random#show"
+        get "/most_revenue", to: "most_revenue#index"
       end
       resources :items, only: [:index, :show]
 
