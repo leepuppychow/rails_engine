@@ -1,3 +1,15 @@
-GET /api/v1/merchants/:id/favorite_customer
+require 'rails_helper'
 
-Merchant.first.customers.joins(invoices: :transactions).group("customers.id").order("COUNT(transactions) DESC").first
+describe "User visits business intelligence endpoint" do
+
+  xit "can find favorite customer" do
+    merchant = create(:merchant)
+    create_list(:customer, 4)
+    custom_customer = create(:customer)
+    create_list(:invoice, 3, customer: custom_customer, merchant: merchant)
+    create(:invoice, merchant: merchant)
+
+    get "/api/v1/merchants/#{merchant.id}/favorite_customer"
+  end
+
+end

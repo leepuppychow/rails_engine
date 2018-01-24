@@ -7,8 +7,13 @@ class Merchant < ApplicationRecord
   has_many :items
   has_many :invoice_items, through: :items
 
-  def self.favorite_customer
-    .customers.joins(invoices: :transactions).group("customers.id").order("COUNT(transactions) DESC").first
+  def favorite_customer
+    #returns the customer who has conducted the
+    #most total number of successful transactions.
+    customers
+      .joins(invoices: :transactions)
+      .group("customers.id")
+      .order("COUNT(transactions) DESC").first
   end
 
 

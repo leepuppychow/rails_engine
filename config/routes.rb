@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       namespace :merchants do
+        get "/:id/favorite_customer", to: "favorite_customer#show"
         get '/find', to: "search#show"
         get '/find_all', to: "search#index"
         get '/random', to: "random#show"
@@ -20,7 +21,7 @@ Rails.application.routes.draw do
       namespace :transactions do
         get '/find', to: "search#show"
         get '/find_all', to: "search#index"
-        get '/random', to: "random#show"  
+        get '/random', to: "random#show"
       end
       resources :transactions, only:[:index, :show]
 
