@@ -2,7 +2,8 @@ FactoryBot.define do
   factory :transaction do
     invoice
     result "success"
-    created_at Date.today
-    updated_at Date.today
+    credit_card_number 123456789011
+    created_at "2012-03-27 14:54:05 UTC"
+    updated_at "2012-03-27 14:54:05 UTC"
   end
 end
