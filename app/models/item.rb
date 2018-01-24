@@ -7,4 +7,14 @@ class Item < ApplicationRecord
     has_many :transactions, through: :invoices
     has_many :customers, through: :invoices
 
+
+    def top_items_by_revenue(quantity)
+      Item.select("items.*, SUM(invoice_items.quantity * invoice_items.unit_price) AS revenue").joins(:invoice_items).group(:id).order("revenue DESC").limit(quantity)
+    end
+
+    def top_items_by_count(quantity)
+      Item.select("items.*, SUM(invoice_items.quantity) AS total_items").joins(:invoice_items).group(:id).order("total_items DESC").limit(quantity)
+    end
+
+
 end
