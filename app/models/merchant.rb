@@ -9,6 +9,11 @@ class Merchant < ApplicationRecord
 
   def favorite_customer
     .customers.joins(invoices: :transactions).group("customers.id").order("COUNT(transactions) DESC").first
-  end 
+  end
 
+
+  def revenue_by_date(date)
+    Merchant.joins(:invoice_items).where(invoice_items: {updated_at: date}).sum("invoice_items.quantity * invoice_items.unit_price")
+  end
+  
 end
