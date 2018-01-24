@@ -2,8 +2,6 @@
 #
 # NOTE: All revenues should be reported as a float with two decimal places.
 
-
-
 # GET /api/v1/merchants/:id/revenue
 # Returns the total revenue for that merchant across successful transactions
 
@@ -34,6 +32,10 @@ Merchant.joins(:invoice_items).group("merchants.id").order("sum_invoice_items_qu
 InvoiceItem.joins(:merchant).group("merchants.id").order("sum_invoice_items_quantity DESC").limit(8).sum("invoice_items.quantity")
   #this works when you have the default scope in InvoiceItem (joining to Transactions, which are succesful)
 
+
+
+
+
 # GET /api/v1/customers/:id/favorite_merchant
 # returns a merchant where the customer has conducted the most successful transactions
 customer.merchants
@@ -63,15 +65,25 @@ item.transactions
   .limit(1).sum("invoice_items.quantity")
 # THIS WORKS
 
+
+
+
 # GET /api/v1/items/most_items?quantity=x
 # returns the top x item instances ranked by total number sold
 
-item_ids = Item.joins(:invoice_items)
-  .group("items.id")
-  .order("sum_quantity DESC")
-  .limit(params[:quantity])
-  .sum(:quantity)
-  .keys
-  #this would return an array of the item IDs that were sold the most
-  #this works, just need to return the item objects:
-  Item.where(id: item_ids)
+items = Item.select("items.*, SUM(quantity) AS sum")
+          .joins(:invoice_items)
+          .group(:id)
+          .order("sum DESC")
+          .limit(params[:quantity])
+
+#
+# item_ids = Item.joins(:invoice_items)
+#   .group("items.id")
+#   .order("sum_quantity DESC")
+#   .limit(params[:quantity]) #this is safe from SQL injection (ActiveRecord limit has built in verification)
+#   .sum(:quantity)
+#   .keys
+#   #this would return an array of the item IDs that were sold the most
+#   #this works, just need to return the item objects:
+#   Item.where(id: item_ids)

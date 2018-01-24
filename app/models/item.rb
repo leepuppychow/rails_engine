@@ -16,4 +16,14 @@ class Item < ApplicationRecord
     end
 
 
+
+    def self.top_items_by_revenue(quantity)
+      select("items.*, SUM(invoice_items.quantity * invoice_items.unit_price) AS revenue").joins(:invoice_items).group(:id).order("revenue DESC").limit(quantity)
+    end
+
+    def self.top_items_by_count(quantity)
+      select("items.*, SUM(invoice_items.quantity) AS total_items").joins(:invoice_items).group(:id).order("total_items DESC").limit(quantity)
+    end
+
+
 end
