@@ -20,9 +20,12 @@ from items to item invoice_items
 order by revenue desc,
 limit by variable (which is quantity)
 
-Item.select("items.*, SUM(invoice_items.quantity * invoice_items.unit_price) AS revenue").joins(:invoice_items).group(:id).order("revenue DESC").limit(2)
+Item.select("items.*, SUM(invoice_items.quantity * invoice_items.unit_price) AS revenue").joins(:invoice_items [:invoices, :transactions]).merge(Transaction.successful_transactions).group(:id).order("revenue DESC").limit(2)
+
+ex: Merchant.invoice_items.joins(:transactions).merge(Transaction.successful_transactions).sum("quantity * invoice_items.unit_price")
+
+
+maybe try Item.invoice_items.
 
 
 =end
-
-Merchant.joins(:invoice_items).group("merchants.id").order("sum_invoice_items_quantity").limit(params[:quantiy]).sum("invoice_items.quantity")
