@@ -1,15 +1,3 @@
-# NOTE: Failed charges should never be counted in revenue totals or statistics.
-#
-# NOTE: All revenues should be reported as a float with two decimal places.
-
-# GET /api/v1/merchants/:id/revenue
-# Returns the total revenue for that merchant across successful transactions
-
-    #may need to do some processing with the currency value (number_to_currency)
-merchant.invoice_items
-  .joins(:transactions)
-  .sum("quantity * invoice_items.unit_price")
-
 # GET /api/v1/merchants/:id/revenue?date=x
 # returns the total revenue for that merchant for a specific invoice date x
 
@@ -64,26 +52,3 @@ item.transactions
   .order("sum_invoice_items_quantity DESC, invoices.created_at DESC")
   .limit(1).sum("invoice_items.quantity")
 # THIS WORKS
-
-
-
-
-# GET /api/v1/items/most_items?quantity=x
-# returns the top x item instances ranked by total number sold
-
-items = Item.select("items.*, SUM(quantity) AS sum")
-          .joins(:invoice_items)
-          .group(:id)
-          .order("sum DESC")
-          .limit(params[:quantity])
-
-#
-# item_ids = Item.joins(:invoice_items)
-#   .group("items.id")
-#   .order("sum_quantity DESC")
-#   .limit(params[:quantity]) #this is safe from SQL injection (ActiveRecord limit has built in verification)
-#   .sum(:quantity)
-#   .keys
-#   #this would return an array of the item IDs that were sold the most
-#   #this works, just need to return the item objects:
-#   Item.where(id: item_ids)

@@ -19,12 +19,13 @@ class Item < ApplicationRecord
 
     def self.top_items_by_count(quantity)
       unscoped
-      .select("items.*, SUM(invoice_items.quantity) AS total_items")
+      .select("items.*, SUM(quantity) AS total_items")
       .joins(:invoice_items)
       .group(:id)
       .order("total_items DESC")
       .limit(quantity)
     end
+
 
 
 end
