@@ -10,7 +10,7 @@ describe "User searches for an item by random" do
     expect(response).to be_success
 
     served_item = JSON.parse(response.body, symbolize_names: true)
-# binding.pry
+
     expect(served_item).to have_key(:id)
 
   end
