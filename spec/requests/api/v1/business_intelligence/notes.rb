@@ -81,44 +81,20 @@
 #
 # GET /api/v1/customers/:id/favorite_merchant
 # returns a merchant where the customer has conducted the most successful transactions
-#
-#
-#
-#
-#
-#
-# customer.invoices.joins(:transactions, :merchant).merge(Transaction.unscoped.success)
-#
-# # this worked for one customer but not both
-# customer.merchants.select("merchants.*, COUNT(*) AS count_all").joins(:transactions).merge(Transaction.unscoped.success).group("merchants.id").unscope(:order).order("count_all DESC").limit(1)
-#
-#
-# ------------------------------
-#
-# boss mode
-#
-# BOSS MODE: GET /api/v1/merchants/:id/customers_with_pending_invoices
-#
-# returns a collection of customers which have pending (unpaid) invoices. A pending invoice has no transactions with a result of success. This means all transactions are failed.
-#
-# Postgres has an EXCEPT operator that might be useful. ActiveRecord also has a find_by_sql that might help.
-#
-#
-# Transaction.group(:invoice_id).unscope(:order).failed
-#
-#
-#
-#
-# Transaction.group(:invoice_id, :id).unscope(:order).failed.count.count (returns 947 fails)
-#
-# Merchant.first.customers.select("customers.*, invoices.*, transaction.result").joins(invoices: :transactions).merge(Invoice.pending_invoices)
-#
-#
-# starts with...
-#
-#
-#
-#
-#
-#
-# ...
+customer.merchants.select("merchants.id, merchants.name, COUNT(*) AS count_all").joins(:transactions).group("merchants.id").order("count_all DESC").limit(1)
+
+  #this works
+
+# GET /api/v1/items/:id/best_day
+# returns the date with the most sales for the given item using the invoice date.
+# If there are multiple days with equal number of sales, return the most recent day.
+
+item.invoices.group("invoices.created_at").order("sum_quantity DESC, invoices.created_at DESC").limit(1).sum(:quantity)
+
+      # item_id_one  = 1099 => "2012-03-22T03:55:09.000Z"
+      # item_id_two  = 2198 => "2012-03-20T23:57:05.000Z"
+
+      #fails for 1099 (has to be most recent)
+      #passes for item 2198
+item.transactions.joins(:invoice_items).group("invoices.created_at").order("sum_invoice_items_quantity DESC, invoices.created_at DESC").limit(1).sum("invoice_items.quantity")
+# THIS WORKS
