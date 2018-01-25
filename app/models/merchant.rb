@@ -57,6 +57,14 @@ class Merchant < ApplicationRecord
     .limit(number_of_merchants)
   end
 
-
+  def self.most_revenue(quantity)
+    unscoped
+      .select("merchants.*, SUM(invoice_items.quantity * invoice_items.unit_price) AS revenue")
+      .joins(invoices: [:invoice_items, :transactions])
+      .merge(Transaction.unscoped.success)
+      .group(:id)
+      .order("revenue DESC")
+      .limit(quantity)
+  end
 
 end

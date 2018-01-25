@@ -40,13 +40,10 @@ InvoiceItem.joins(:merchant).group("merchants.id").order("sum_invoice_items_quan
 
 # GET /api/v1/customers/:id/favorite_merchant
 # returns a merchant where the customer has conducted the most successful transactions
-customer.merchants
-  .select("merchants.id, merchants.name, COUNT(*) AS count_all")
-  .joins(:transactions)
-  .group("merchants.id")
-  .order("count_all DESC")
-  .limit(1)
+customer.merchants.select("merchants.id, merchants.name, COUNT(*) AS count_all").joins(:transactions).merge(Transaction.unscoped.success).group("merchants.id").order("count_all DESC").limit(1)
 
+
+customer.
   #this works
 ___________________________________________________
 # GET /api/v1/items/:id/best_day
@@ -78,9 +75,18 @@ limit(x)
 order by revenue
 
 
-Merchant.unscoped.select("merchants.*, SUM(invoice_items.quantity * invoice_items.unit_price) AS revenue")
-  .joins(:invoice_items)
-  .merge
-  .group(:id)
-  .order("revenue DESC")
-  .limit(quantity)
+Merchant.unscoped.select("merchants.*, SUM(invoice_items.quantity * invoice_items.unit_price) AS revenue").joins(invoices: [:invoice_items, :transactions]).merge(Transaction.unscoped.success).group(:id).order("revenue DESC").limit(3)
+--------------------------
+
+
+GET /api/v1/customers/:id/favorite_merchant
+returns a merchant where the customer has conducted the most successful transactions
+
+customer.invoices.select("invoices.*, merchants.*, COUNT(transactions.id) AS counted").joins(:merchant, :transactions).merge(Transaction.unscoped.success).group("merchant.id").order("counted DESC").limit(1)
+
+
+
+
+
+
+...
