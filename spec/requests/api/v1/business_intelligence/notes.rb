@@ -82,7 +82,15 @@ Merchant.unscoped.select("merchants.*, SUM(invoice_items.quantity * invoice_item
 GET /api/v1/customers/:id/favorite_merchant
 returns a merchant where the customer has conducted the most successful transactions
 
-customer.invoices.select("invoices.*, merchants.*, COUNT(transactions.id) AS counted").joins(:merchant, :transactions).merge(Transaction.unscoped.success).group("merchant.id").order("counted DESC").limit(1)
+
+
+
+
+
+customer.invoices.joins(:transactions, :merchant).merge(Transaction.unscoped.success)
+
+# this worked for one customer but not both
+customer.merchants.select("merchants.*, COUNT(*) AS count_all").joins(:transactions).merge(Transaction.unscoped.success).group("merchants.id").unscope(:order).order("count_all DESC").limit(1)
 
 
 
