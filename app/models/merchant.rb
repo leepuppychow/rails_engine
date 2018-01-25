@@ -32,7 +32,6 @@ class Merchant < ApplicationRecord
   end
 
   def total_revenue
-    # GET /api/v1/merchants/:id/revenue
     invoice_items
     .joins(:transactions)
     .merge(Transaction.unscoped.success)
@@ -41,21 +40,19 @@ class Merchant < ApplicationRecord
   end
 
   def total_revenue_on_date(date)
-
-
-    # invoice_items
-    #   .joins(:invoice)
-    #   .where("invoices.created_at = ?", params[:date])
-    #   .sum("quantity * invoice_items.unit_price")
-
     invoice_items
     .joins(:transactions)
     .merge(Transaction.unscoped.success)
     .where(invoices: {updated_at: date.beginning_of_day..date.end_of_day})
     .sum("invoice_items.quantity * invoice_items.unit_price")
-    #
-    # date.beginning_of_day
-    # date.end_of_day
+  end
+
+  def self.merchants_with_most_items(number_of_merchants)
+    InvoiceItem.
+    .group("merchants.id")
+    .order("sum_invoice_items_quantity DESC")
+    .limit(number_of_merchants)
+    .sum("invoice_items.quantity")
   end
 
 

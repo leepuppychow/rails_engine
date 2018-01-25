@@ -1,14 +1,4 @@
-# GET /api/v1/merchants/:id/revenue?date=x
-# returns the total revenue for that merchant for a specific invoice date x
 
-merchant.invoice_items
-  .joins(:invoice)
-  .where("invoices.created_at = ?", params[:date])
-  .sum("quantity * invoice_items.unit_price")
-
-  #merchant_id_one = 30; date = "2012-03-16"; revenue should be 1518.84
-  #need to check for date formatting (maybe use a date range in the where statement)
-  #this works, but just need to work on the date formatting/searching
 
 # GET /api/v1/merchants/most_items?quantity=x
 # returns the top x merchants ranked by total number of items sold

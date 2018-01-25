@@ -10,9 +10,7 @@ Rails.application.routes.draw do
         get '/revenue', to: "revenue#show"
         get "/:id/favorite_customer", to: "favorite_customer#show"
         get "/:id/revenue", to: "total_revenue#show"
-
-        # GET /api/v1/merchants/:id/revenue?date=x
-
+        get "/most_items", to: "most_items#index"
       end
       resources :merchants, only: [:index, :show]
 
