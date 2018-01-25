@@ -45,7 +45,6 @@ describe "Merchant API" do
 
     expect(response).to be_success
     found_transactions = JSON.parse(response.body)
-
     expect(found_transactions.count).to eq 3
     expect(found_transactions[0]["id"]).to eq transaction1.id
     expect(found_transactions[1]["id"]).to eq transaction2.id
@@ -55,7 +54,12 @@ describe "Merchant API" do
 
     expect(response).to be_success
     found_transactions = JSON.parse(response.body)
+<<<<<<< HEAD
     expect(found_transactions.count).to eq 3
+=======
+
+    expect(found_transactions.count).to eq 4
+>>>>>>> relationships
     expect(found_transactions[0]["id"]).to eq transaction1.id
     expect(found_transactions[1]["id"]).to eq transaction2.id
     expect(found_transactions[2]["id"]).to eq transaction3.id
