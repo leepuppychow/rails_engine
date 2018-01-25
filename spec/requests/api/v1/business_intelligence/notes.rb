@@ -1,6 +1,4 @@
 
-<<<<<<< HEAD:spec/requests/api/v1/business_intelligence/notes.rb
-=======
 # GET /api/v1/merchants/:id/revenue
 # Returns the total revenue for that merchant across successful transactions
 
@@ -22,11 +20,13 @@ merchant.invoice_items
   #merchant_id_one = 30; date = "2012-03-16"; revenue should be 1518.84
   #need to check for date formatting (maybe use a date range in the where statement)
   #this works, but just need to work on the date formatting/searching
->>>>>>> merging:spec/requests/api/v1/business_intel/total_revenue_one_merchant_spec.rb
 
 # GET /api/v1/merchants/most_items?quantity=x
 # returns the top x merchants ranked by total number of items sold
-Merchant.joins(:invoice_items).group("merchants.id").order("sum_invoice_items_quantity DESC").limit(params[:quantity]).sum("invoice_items.quantity")
+Merchant.joins(invoice: [:invoice_items, :transactions]).group(:id).merge(Transaction.unscoped.success).order("sum_invoice_items_quantity DESC").limit(3).sum("invoice_items.quantity")
+
+Merchant.unscoped.select("merchants.*, SUM(invoice_items.quantity) AS quantity").joins(invoices: [:invoice_items, :transactions]).merge(Transaction.unscoped.success).order("quantity DESC").group(:id).limit(8)
+
 
   #fails when spec_harness asks for the top 8; merchant with ID 58 not showing up
   #I Think due to the failed charges (need to filter for failing Transactions)
@@ -48,7 +48,7 @@ customer.merchants
   .limit(1)
 
   #this works
-
+___________________________________________________
 # GET /api/v1/items/:id/best_day
 # returns the date with the most sales for the given item using the invoice date.
 # If there are multiple days with equal number of sales, return the most recent day.
@@ -60,9 +60,27 @@ item.invoices.group("invoices.created_at").order("sum_quantity DESC, invoices.cr
 
       #fails for 1099 (has to be most recent)
       #passes for item 2198
-item.transactions
-  .joins(:invoice_items)
-  .group("invoices.created_at")
-  .order("sum_invoice_items_quantity DESC, invoices.created_at DESC")
-  .limit(1).sum("invoice_items.quantity")
+
+
+
+
+
+ item.invoice_items.joins(invoice: :transactions).merge(Transaction.unscoped.success).group("invoices.updated_at").order(" sum_invoice_items_quantity_all_invoice_items_unit_price DESC, invoices.updated_at DESC").limit(3).sum("invoice_items.quantity * invoice_items.unit_price")
+
 # THIS WORKS
+
+-------------------------------
+GET /api/v1/merchants/most_revenue?quantity=x
+returns the top x merchants ranked by total revenue
+
+
+limit(x)
+order by revenue
+
+
+Merchant.unscoped.select("merchants.*, SUM(invoice_items.quantity * invoice_items.unit_price) AS revenue")
+  .joins(:invoice_items)
+  .merge
+  .group(:id)
+  .order("revenue DESC")
+  .limit(quantity)
