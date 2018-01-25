@@ -1,4 +1,28 @@
 
+<<<<<<< HEAD:spec/requests/api/v1/business_intelligence/notes.rb
+=======
+# GET /api/v1/merchants/:id/revenue
+# Returns the total revenue for that merchant across successful transactions
+
+    #may need to do some processing with the currency value (number_to_currency)
+Merchant.first.invoice_items.merge(Transaction.unscoped.success).sum("invoice_items.quantity * invoice_items.unit_price")
+
+def revenue
+  invoice_items.joins(invoice: :transactions).sum("invoice_items.quantity * invoice_items.unit_price")
+end
+
+# GET /api/v1/merchants/:id/revenue?date=x
+# returns the total revenue for that merchant for a specific invoice date x
+
+merchant.invoice_items
+  .joins(:invoice)
+  .where("invoices.created_at = ?", params[:date])
+  .sum("quantity * invoice_items.unit_price")
+
+  #merchant_id_one = 30; date = "2012-03-16"; revenue should be 1518.84
+  #need to check for date formatting (maybe use a date range in the where statement)
+  #this works, but just need to work on the date formatting/searching
+>>>>>>> merging:spec/requests/api/v1/business_intel/total_revenue_one_merchant_spec.rb
 
 # GET /api/v1/merchants/most_items?quantity=x
 # returns the top x merchants ranked by total number of items sold

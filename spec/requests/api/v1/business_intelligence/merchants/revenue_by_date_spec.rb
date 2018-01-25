@@ -2,11 +2,10 @@ GET /api/v1/merchants/revenue?date=x
 
 returns the total revenue for DATE x across all merchants
 
-<<<<<<< HEAD
+
 
 Merchant.joins(:invoice_items).where(invoice_items: {updated_at: "2012-03-27 14:54:09 UTC"}).sum("invoice_items.quantity * invoice_items.unit_price")
-=======
-<<<<<<< HEAD
+
 table needs:
 date | revenue (sum)
 joins(invoices: :invoice_items)
@@ -26,8 +25,6 @@ Merchant.joins(:invoice_items)
  .order("sum_invoice_items_quantity")
  .limit(params[:quantity])
  .sum("invoice_items.quantity")
-=======
+
 
 Merchant.joins(:invoice_items).where(invoice_items: {updated_at: "2012-03-27 14:54:09 UTC"}).sum("invoice_items.quantity * invoice_items.unit_price")
->>>>>>> merging
->>>>>>> business
