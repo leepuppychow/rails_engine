@@ -1,11 +1,11 @@
 class Api::V1::Invoices::SearchController < ApplicationController
 
   def show
-    render json: Invoice.find_by(search_params) if search_params
+    render json: Invoice.find_by(search_params)
   end
 
   def index
-    render json: Invoice.where(search_params) if search_params
+    render json: Invoice.where(search_params) 
   end
 
 
