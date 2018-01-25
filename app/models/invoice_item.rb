@@ -7,4 +7,5 @@ class InvoiceItem < ApplicationRecord
   has_one :merchant, through: :invoice
   has_many :transactions, through: :invoice
 
+
 end

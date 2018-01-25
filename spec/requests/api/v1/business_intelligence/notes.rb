@@ -16,12 +16,7 @@ InvoiceItem.joins(:merchant).group("merchants.id").order("sum_invoice_items_quan
 
 # GET /api/v1/customers/:id/favorite_merchant
 # returns a merchant where the customer has conducted the most successful transactions
-customer.merchants
-  .select("merchants.id, merchants.name, COUNT(*) AS count_all")
-  .joins(:transactions)
-  .group("merchants.id")
-  .order("count_all DESC")
-  .limit(1)
+customer.merchants.select("merchants.id, merchants.name, COUNT(*) AS count_all").joins(:transactions).group("merchants.id").order("count_all DESC").limit(1)
 
   #this works
 
@@ -36,9 +31,5 @@ item.invoices.group("invoices.created_at").order("sum_quantity DESC, invoices.cr
 
       #fails for 1099 (has to be most recent)
       #passes for item 2198
-item.transactions
-  .joins(:invoice_items)
-  .group("invoices.created_at")
-  .order("sum_invoice_items_quantity DESC, invoices.created_at DESC")
-  .limit(1).sum("invoice_items.quantity")
+item.transactions.joins(:invoice_items).group("invoices.created_at").order("sum_invoice_items_quantity DESC, invoices.created_at DESC").limit(1).sum("invoice_items.quantity")
 # THIS WORKS
