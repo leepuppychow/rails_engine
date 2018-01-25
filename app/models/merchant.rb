@@ -67,15 +67,9 @@ class Merchant < ApplicationRecord
       .limit(quantity)
   end
 
-  ###THIS WORKS:
-
-  def self.customers_with_pending_invoices(merchant_id)
-    Customer.where(id: customers_ids_with_pending_invoices(merchant_id))
-  end
-
-  def self.customers_ids_with_pending_invoices(merchant_id)
-    find_by_sql(["
-      SELECT DISTINCT invoices.id AS invoice, customers.id AS customer
+  def customers_with_pending_invoices
+    Customer.find_by_sql(["
+      SELECT DISTINCT customers.*
         FROM merchants INNER JOIN invoices ON merchants.id = invoices.merchant_id
         INNER JOIN customers ON invoices.customer_id = customers.id
         INNER JOIN transactions ON invoices.id = transactions.invoice_id
@@ -83,13 +77,10 @@ class Merchant < ApplicationRecord
 
       EXCEPT
 
-      (SELECT invoices.id AS invoice, customers.id AS customer
+      (SELECT customers.*
         FROM merchants INNER JOIN invoices ON merchants.id = invoices.merchant_id
         INNER JOIN customers ON invoices.customer_id = customers.id
         INNER JOIN transactions ON invoices.id = transactions.invoice_id
-        WHERE result = 'success' AND merchants.id = ?)",
-      merchant_id, merchant_id]).map(&:customer)
+        WHERE result = 'success' AND merchants.id = ?)", id, id])
   end
-
-
 end

@@ -17,5 +17,4 @@ class Customer < ApplicationRecord
     .limit(1)
   end
 
-
 end
