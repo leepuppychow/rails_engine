@@ -1,13 +1,9 @@
-# Items
-# GET /api/v1/items/:id/invoice_items returns a collection of associated invoice items
-# GET /api/v1/items/:id/merchant returns the associated merchant
-
 require 'rails_helper'
 
 describe 'Items API' do
   it "can show a list of associated invoice_items for a specific item" do
     item = create(:item)
-    invoice = create)(:invoice)
+    invoice = create(:invoice)
     create_list(:invoice_item, 5, item: item, invoice: invoice)
 
     get "/api/v1/items/#{item.id}/invoice_items"
@@ -18,6 +14,13 @@ describe 'Items API' do
   end
 
   it 'can show a the associated merchants for a specific item' do
+    item = create(:item)
+    merchant = create(:merchant)
 
+    get "/api/v1/items/#{item.id}/merchant"
+
+    expect(response).to be_success
+    found_merchant = JSON.parse(response.body)
+    expect found_merchant["id"] = merchant.id
   end
 end
