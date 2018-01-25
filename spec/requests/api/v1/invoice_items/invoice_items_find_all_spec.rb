@@ -53,7 +53,6 @@ describe "User searches for all invoice_items by parameters" do
     create_list(:invoice_item, 3)
 
     get "/api/v1/invoice_items/find_all?created_at=#{Invoice_item.last.created_at}"
-    # binding.pry
 
     served_invoice_items = JSON.parse(response.body, symbolize_names: true)
 

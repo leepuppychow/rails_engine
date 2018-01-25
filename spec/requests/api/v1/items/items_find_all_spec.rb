@@ -53,7 +53,6 @@ describe "User searches for all items by parameters" do
     create_list(:item, 3)
 
     get "/api/v1/items/find_all?created_at=#{Item.last.created_at}"
-    # binding.pry
 
     served_items = JSON.parse(response.body, symbolize_names: true)
 

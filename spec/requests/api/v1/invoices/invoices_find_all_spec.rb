@@ -2,18 +2,6 @@ require 'rails_helper'
 
 
 describe "User searches for all invoices by parameters" do
-  # it "returns a list of valid invoices by attribute" do
-  #
-  #   create(:invoice, attribute)
-  #   create(:invoice, attribute)
-  #   create_list(:invoice, 3)
-  #
-  #   get "/api/v1/invoices/find_all?attribute=#{Invoice.first.attribute}"
-  #
-  #   served_invoices = JSON.parse(response.body, symbolize_names: true)
-  #   expect(served_invoices.count).to eq(2)
-  #
-  # end
 
   it "returns a list of valid invoices by id" do
 
@@ -79,7 +67,7 @@ describe "User searches for all invoices by parameters" do
 
     get "/api/v1/invoices/find_all?created_at=#{Invoice.last.created_at}"
     served_invoices = JSON.parse(response.body, symbolize_names: true)
-# binding.pry
+
     expect(served_invoices.count).to eq(3)
     expect(served_invoices.first[:status]).to eq(Invoice.first.status)
     expect(served_invoices.second[:status]).to eq(Invoice.second.status)
