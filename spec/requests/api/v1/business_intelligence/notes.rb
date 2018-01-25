@@ -93,6 +93,30 @@ customer.invoices.joins(:transactions, :merchant).merge(Transaction.unscoped.suc
 customer.merchants.select("merchants.*, COUNT(*) AS count_all").joins(:transactions).merge(Transaction.unscoped.success).group("merchants.id").unscope(:order).order("count_all DESC").limit(1)
 
 
+------------------------------
+
+boss mode
+
+BOSS MODE: GET /api/v1/merchants/:id/customers_with_pending_invoices
+
+returns a collection of customers which have pending (unpaid) invoices. A pending invoice has no transactions with a result of success. This means all transactions are failed.
+
+Postgres has an EXCEPT operator that might be useful. ActiveRecord also has a find_by_sql that might help.
+
+
+Transaction.group(:invoice_id).unscope(:order).failed
+
+
+
+
+Transaction.group(:invoice_id, :id).unscope(:order).failed.count.count (returns 947 fails)
+
+Merchant.first.customers.select("customers.*, invoices.*, transaction.result").joins(invoices: :transactions).merge(Invoice.pending_invoices)
+
+
+starts with...
+
+
 
 
 
