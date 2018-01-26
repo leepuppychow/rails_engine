@@ -55,7 +55,7 @@ describe "User searches for an invoice_item by parameters" do
     invoice_item_1 = create(:invoice_item, unit_price: 777)
     create_list(:invoice_item, 3)
 
-    get "/api/v1/invoice_items/find?unit_price=#{invoice_item_1.unit_price}"
+    get "/api/v1/invoice_items/find?unit_price=7.77"
     served_invoice_item = JSON.parse(response.body, symbolize_names: true)
 
     expect(served_invoice_item[:id]).to eq(invoice_item_1.id)

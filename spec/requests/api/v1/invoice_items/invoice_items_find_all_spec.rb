@@ -67,7 +67,7 @@ describe "User searches for all invoice_items by parameters" do
     create(:invoice_item, unit_price: 777)
     create_list(:invoice_item, 3)
 
-    get "/api/v1/invoice_items/find_all?unit_price=#{InvoiceItem.first.unit_price}"
+    get "/api/v1/invoice_items/find_all?unit_price=7.77"
     served_invoice_items = JSON.parse(response.body, symbolize_names: true)
 
     expect(served_invoice_items.count).to eq(2)
