@@ -26,9 +26,6 @@ class Merchant < ApplicationRecord
       .sum("invoice_items.quantity * invoice_items.unit_price")
       .values
       .sum
-    # has to be converted to currency, but working
-    # date.beginning_of_day
-    # date.end_of_day
   end
 
   def total_revenue
@@ -36,7 +33,6 @@ class Merchant < ApplicationRecord
     .joins(:transactions)
     .merge(Transaction.unscoped.success)
     .sum("quantity * invoice_items.unit_price")
-    #need to convert currency
   end
 
   def total_revenue_on_date(date)
