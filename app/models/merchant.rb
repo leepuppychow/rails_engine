@@ -12,9 +12,10 @@ class Merchant < ApplicationRecord
   def favorite_customer
     customers
       .joins(invoices: :transactions)
-      .merge(Transaction.success)
+      .merge(Transaction.unscoped.success)
       .group("customers.id")
-      .order("COUNT(transactions) DESC").first
+      .order("COUNT(transactions) DESC")
+      .first
   end
 
   def self.revenue_by_date(date)

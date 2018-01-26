@@ -15,6 +15,7 @@ class Customer < ApplicationRecord
     .unscope(:order)
     .order("count_all DESC")
     .limit(1)
+    .first
   end
 
 end
