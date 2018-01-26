@@ -33,12 +33,12 @@ describe "User searches for all items by parameters" do
 
   it "returns a list of valid items by unit price" do
 
-    create(:item, unit_price: 10)
-    create(:item, unit_price: 10)
+    create(:item, unit_price: 777)
+    create(:item, unit_price: 777)
 
     create_list(:item, 3)
 
-    get "/api/v1/items/find_all?unit_price=#{Item.first.unit_price}"
+    get "/api/v1/items/find_all?unit_price=7.77"
 
     served_items = JSON.parse(response.body, symbolize_names: true)
 
@@ -53,7 +53,6 @@ describe "User searches for all items by parameters" do
     create_list(:item, 3)
 
     get "/api/v1/items/find_all?created_at=#{Item.last.created_at}"
-    # binding.pry
 
     served_items = JSON.parse(response.body, symbolize_names: true)
 

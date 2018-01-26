@@ -22,9 +22,5 @@ describe Invoice do
       is_expected.to have_many(:invoice_items)
     end
 
-    it "has_many invoices" do
-      is_expected.to have_many(:invoices)
-    end
-
   end
 end

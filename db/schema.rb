@@ -28,10 +28,14 @@ ActiveRecord::Schema.define(version: 20180123021850) do
     t.integer "unit_price"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "invoice_id"
     t.bigint "item_id"
+    t.bigint "invoice_id"
+    t.bigint "invoices_id"
+    t.bigint "items_id"
     t.index ["invoice_id"], name: "index_invoice_items_on_invoice_id"
+    t.index ["invoices_id"], name: "index_invoice_items_on_invoices_id"
     t.index ["item_id"], name: "index_invoice_items_on_item_id"
+    t.index ["items_id"], name: "index_invoice_items_on_items_id"
   end
 
   create_table "invoices", force: :cascade do |t|
@@ -71,7 +75,9 @@ ActiveRecord::Schema.define(version: 20180123021850) do
   end
 
   add_foreign_key "invoice_items", "invoices"
+  add_foreign_key "invoice_items", "invoices", column: "invoices_id"
   add_foreign_key "invoice_items", "items"
+  add_foreign_key "invoice_items", "items", column: "items_id"
   add_foreign_key "invoices", "customers"
   add_foreign_key "invoices", "merchants"
   add_foreign_key "items", "merchants"

@@ -7,7 +7,7 @@ describe Merchant do
     it {is_expected.to validate_presence_of(:updated_at)}
   end
 
-  xdescribe "Relationships" do
+  describe "Relationships" do
     it {is_expected.to have_many(:items)}
     it {is_expected.to have_many(:invoices)}
     it {is_expected.to have_many(:customers).through(:invoices)}

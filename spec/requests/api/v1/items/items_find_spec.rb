@@ -32,11 +32,11 @@ describe "User searches for an item by parameters" do
 
   it "returns a valid item by unit_price" do
 
-    item_1 = create(:item, unit_price: 10)
+    item_1 = create(:item, unit_price: 777)
 
     create_list(:item, 3)
 
-    get "/api/v1/items/find?unit_price=#{item_1.unit_price}"
+    get "/api/v1/items/find?unit_price=7.77"
 
     served_item = JSON.parse(response.body, symbolize_names: true)
 

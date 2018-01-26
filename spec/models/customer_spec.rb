@@ -12,4 +12,5 @@ describe Customer do
     it {is_expected.to have_many(:invoices)}
     it {is_expected.to have_many(:merchants).through(:invoices)}
   end
+
 end
