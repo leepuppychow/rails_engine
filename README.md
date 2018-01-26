@@ -2,6 +2,8 @@
 
 Rails engine (Sales Engine via Rails) is a RESTful Business Intelligence API written in the Rails framework. It returns JSON data for Merchants, Customers, Invoices, Items, and Transactions.  In addition to RESTful show and index pages, there are several BI requests available. Please see below for specific URIs.
 
+http://backend.turing.io/module3/projects/rails_engine
+
 ## Getting Started
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
